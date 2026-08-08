@@ -2,7 +2,7 @@
 Compiladores – Universidad Mesoamericana, Campus Quetzaltenango
 
 Analizador léxico construido con **flex**, envuelto en una interfaz gráfica
-en **Python (Tkinter)** que genera dos reportes en **PDF** y guarda la tabla
+en **Python (Tkinter y CustomerTkinter)** que genera dos reportes en **PDF** y guarda la tabla
 de símbolos en **MongoDB**. El lenguaje de entrada analizado es **Kotlin**.
 
 ## Estructura del proyecto
@@ -31,6 +31,11 @@ sudo apt-get update
 sudo apt-get install -y flex gcc python3 python3-pip python3-tk
 
 # MongoDB 
+sudo apt update
+sudo apt install -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo docker run -d --name mongo-proyecto -p 27017:27017 mongo:latest
 
 Instalar las dependencias de Python:
 
@@ -70,6 +75,7 @@ Con MongoDB corriendo y el ejecutable ya compilado:
 
 ```bash
 cd src
+make
 python3 gui.py
 ```
 
@@ -113,3 +119,4 @@ Flujo dentro de la aplicación:
 - Los strings de una sola comilla se procesan con manejo de secuencias
   de escape (`\"`, `\n`, etc.) también hay soporte básico para los
   strings triples de Kotlin (`"""texto"""`).
+
