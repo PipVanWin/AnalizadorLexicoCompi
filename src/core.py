@@ -84,7 +84,7 @@ def ejecutar_analizador(ruta_archivo):
         lexemas.append((lexema, int(linea), token, categoria))
     return lexemas, proceso.stderr
 
-    def guardar_en_mongo(resultado: ResultadoAnalisis):
+def guardar_en_mongo(resultado: ResultadoAnalisis):
     if not MONGO_DISPONIBLE:
         raise RuntimeError("pymongo no esta instalado. Ejecuta: pip install pymongo")
     cliente = MongoClient(MONGO_URI, serverSelectionTimeoutMS=3000)
