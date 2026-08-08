@@ -1,7 +1,6 @@
 """
 gui.py
-Interfaz grafica (Tkinter) para el Analizador Estatico de Codigo.
-Proyecto Corto #1 - Compiladores - Universidad Mesoamericana
+Interfaz grafica para el Analizador Lexico de Kotlin
 """
 
 import os
@@ -119,23 +118,26 @@ class AplicacionAnalizador(tk.Tk):
         self.tabla_simbolos_ui.pack(side="left", fill="both", expand=True)
         scroll.pack(side="right", fill="y")
 
+    # -------------------------------------------------------------- #
+
     def abrir_archivo(self):
-        pass
 
-    def _actualizar_resumen(self):
-        pass
-
-    def _actualizar_detalle(self):
-        pass
-
-    def _actualizar_simbolos(self):
-        pass
-
-    def generar_pdfs(self):
-        pass
 
     def guardar_mongo(self):
-        pass
+        if not self.resultado:
+            return
+        try:
+            id_insertado = core.guardar_en_mongo(self.resultado)
+        except Exception as exc:
+            messagebox.showerror("Error de MongoDB", str(exc))
+            return
+        messagebox.showinfo(
+            "Exito",
+            f"Tabla de simbolos guardada en MongoDB.\nID: {id_insertado}",
+        )
+        self.barra_estado.config(
+            text="Tabla de simbolos guardada en MongoDB."
+        )
 
 
 if __name__ == "__main__":
