@@ -1,10 +1,6 @@
 """
 gui.py
-<<<<<<< HEAD
-Interfaz gráfica (CustomTkinter) para el Analizador Lexico de Kotlin
-=======
 Interfaz gráfica para el Analizador Lexico, Tkinter y CustomTkinter
->>>>>>> 09c31a6 (centralizar estilo global de tablas, remover imports redundantes y mejorar contraste)
 """
 
 
@@ -33,12 +29,9 @@ class AplicacionAnalizador(ctk.CTk):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(2, weight=1)
 
-<<<<<<< HEAD
-=======
         # Configuración global del estilo de las tablas ttk (Treeview)
         self._estilar_treeviews_globales()
 
->>>>>>> 09c31a6 (centralizar estilo global de tablas, remover imports redundantes y mejorar contraste)
         self._construir_widgets()
 
     def _estilar_treeviews_globales(self):
@@ -77,19 +70,12 @@ class AplicacionAnalizador(ctk.CTk):
         )
         self.boton_abrir.pack(side="left", padx=15, pady=12)
 
-<<<<<<< HEAD
-=======
         # Se utiliza gray70 para asegurar contraste adecuado en Dark Mode antes de cargar un archivo
->>>>>>> 09c31a6 (centralizar estilo global de tablas, remover imports redundantes y mejorar contraste)
         self.etiqueta_archivo = ctk.CTkLabel(
             self.frame_superior,
             text="Ningún archivo cargado",
             font=ctk.CTkFont(size=13, slant="italic"),
-<<<<<<< HEAD
-            text_color="gray",
-=======
             text_color="gray70",
->>>>>>> 09c31a6 (centralizar estilo global de tablas, remover imports redundantes y mejorar contraste)
         )
         self.etiqueta_archivo.pack(side="left", padx=10)
 
@@ -150,34 +136,8 @@ class AplicacionAnalizador(ctk.CTk):
         )
         self.texto_resumen.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
         self.texto_resumen.configure(state="disabled")
-<<<<<<< HEAD
-
-    def _estilar_treeview(self):
-        style = ttk.Style()
-        style.theme_use("default")
-        style.configure(
-            "Treeview",
-            background="#2b2b2b",
-            foreground="#ffffff",
-            fieldbackground="#2b2b2b",
-            rowheight=26,
-            borderwidth=0,
-        )
-        style.configure(
-            "Treeview.Heading",
-            background="#1f1f1f",
-            foreground="#ffffff",
-            relief="flat",
-            font=("Segoe UI", 10, "bold"),
-        )
-        style.map("Treeview", background=[("selected", "#1f538d")])
 
     def _crear_pestana_detalle(self):
-        self._estilar_treeview()
-=======
-
-    def _crear_pestana_detalle(self):
->>>>>>> 09c31a6 (centralizar estilo global de tablas, remover imports redundantes y mejorar contraste)
         self.tab_detalle.grid_columnconfigure(0, weight=1)
         self.tab_detalle.grid_rowconfigure(0, weight=1)
 
@@ -225,15 +185,11 @@ class AplicacionAnalizador(ctk.CTk):
             frame, orientation="vertical", command=self.tabla_simbolos_ui.yview
         )
         self.tabla_simbolos_ui.configure(yscrollcommand=scroll.set)
-<<<<<<< HEAD
 
         self.tabla_simbolos_ui.grid(row=0, column=0, sticky="nsew")
         scroll.grid(row=0, column=1, sticky="ns")
-=======
->>>>>>> 09c31a6 (centralizar estilo global de tablas, remover imports redundantes y mejorar contraste)
 
-        self.tabla_simbolos_ui.grid(row=0, column=0, sticky="nsew")
-        scroll.grid(row=0, column=1, sticky="ns")
+    # -------------------------------------------------------------- #
 
     def abrir_archivo(self):
         ruta = filedialog.askopenfilename(
@@ -345,7 +301,8 @@ class AplicacionAnalizador(ctk.CTk):
         if not self.resultado:
             return
         try:
-            # Si el servicio de MongoDB no responde, el timeout en core.py causará una breve pausa en el hilo principal antes de lanzar la excepción.
+            # Nota: Si el servicio de MongoDB no responde, el timeout en core.py (e.g. 3000ms)
+            # causará una breve pausa en el hilo principal antes de lanzar/completar la excepción.
             id_insertado = core.guardar_en_mongo(self.resultado)
         except Exception as exc:
             messagebox.showerror("Error de MongoDB", str(exc))
