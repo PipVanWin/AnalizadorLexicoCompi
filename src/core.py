@@ -2,7 +2,11 @@ import os
 import subprocess
 from collections import Counter, OrderedDict
 from datetime import datetime
-
+try:
+    from pymongo import MongoClient
+    MONGO_DISPONIBLE = True
+except ImportError:
+    MONGO_DISPONIBLE = False
 
 FS = "\x01"  # separador de campos usado por el analizador flex
 RUTA_EJECUTABLE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analizador")
@@ -79,3 +83,21 @@ def ejecutar_analizador(ruta_archivo):
         lexema, linea, token, categoria = partes
         lexemas.append((lexema, int(linea), token, categoria))
     return lexemas, proceso.stderr
+
+    def guardar_en_mongo(resultado: ResultadoAnalisis):
+    if not MONGO_DISPONIBLE:
+        raise RuntimeError("pymongo no esta instalado. Ejecuta: pip install pymongo")
+    cliente = MongoClient(MONGO_URI, serverSelectionTimeoutMS=3000)
+    cliente.admin.command("ping")  # fuerza la conexion, lanza error si no hay servidor
+    db = cliente[MONGO_DB]
+    coleccion = db[MONGO_COLECCION]
+
+    documento = {
+        "archivo": os.path.basename(resultado.archivo),
+        "fecha_analisis": datetime.now(),
+        "total_identificadores_unicos": len(resultado.tabla_simbolos),
+        "tabla_simbolos": resultado.tabla_simbolos,
+    }
+    resultado_insercion = coleccion.insert_one(documento)
+    cliente.close()
+    return resultado_insercion.inserted_id
